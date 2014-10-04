@@ -61,8 +61,9 @@ public class CatalogDemoServlet extends HttpServlet {
         if(ProductCatalog.init(catalogPath)){
             catalog = ProductCatalog.getInstance();
             
-            CatalogUtility.generateCatalog(catalog, NUM_0F_PRODUCTS);
-            
+            if(catalog == null){
+                CatalogUtility.generateCatalog(catalog, NUM_0F_PRODUCTS);
+            }
         }
     }
 

@@ -30,26 +30,24 @@ public class CatalogUtility {
     public static void generateCatalog(ProductCatalog catalog, int numProducts) {
         catalog.clear();
 
-        if (catalog == null) {
-            // Loop to create random test products to insert into the catalog
-            for (int product = 1; product <= numProducts; product++) {
-                Product pb = new ProductBean(Integer.toString(product + 10),
-                        "Test Product " + product,
-                        randomPrice(),
-                        randomDate());
+        // Loop to create random test products to insert into the catalog
+        for (int product = 1; product <= numProducts; product++) {
+            Product pb = new ProductBean(Integer.toString(product + 10),
+                "Test Product " + product,
+                randomPrice(),
+                randomDate());
 
-                catalog.insertProduct(pb);
-            }
+            catalog.insertProduct(pb);
         }
     }
 
-/**
- * Get a random price for a product in the catalog This is used to test
- * populating the catalog
- *
- * @return a random double between 0 and 100
- */
-private static double randomPrice() {
+    /**
+     * Get a random price for a product in the catalog This is used to test
+     * populating the catalog
+     *
+     * @return a random double between 0 and 100
+     */
+    private static double randomPrice() {
         Random rand = new Random();
         return rand.nextDouble() * 100;
     }
