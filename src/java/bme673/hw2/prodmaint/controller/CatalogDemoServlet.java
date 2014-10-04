@@ -36,8 +36,10 @@ public class CatalogDemoServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Store attribute for product catalog
-        request.setAttribute("products", catalog.findAllProducts());
+        if(catalog != null) {
+            // Store attribute for product catalog
+            request.setAttribute("products", catalog.findAllProducts());
+        }
         
         // Forward control
         request.getRequestDispatcher("/ProductDump.jsp").forward(request, response);
