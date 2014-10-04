@@ -6,6 +6,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="products.css">
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,13 +14,34 @@
         <title>Products</title>
     </head>
     <body>
-        <h1>Products in Catalog</h1>
-        <ol>
-            <c:forEach var="products" items="${products}">
-                <li>${products}</li>
-            </c:forEach>
-        </ol>
-        
+        <h1>Products</h1>
+        <table border="1" width="50%">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Release Date</th>
+                    <th>Years Released</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="product" items="${products}">
+                    <tr>
+                        <td>${product.code}</td>
+                        <td>${product.description}</td>
+                        <td>${product.price}</td>
+                        <td>${product.releaseDate}</td>
+                        <td>${product.yearsReleased}</td>
+                        <td>edit</td>
+                        <td>delete</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
         <br>
+        <input type="submit" value="Add Product" name="addProductButton" action="addProduct"/>
     </body>
 </html>
