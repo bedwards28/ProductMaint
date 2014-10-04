@@ -145,14 +145,20 @@ public class ProductBean implements Product
     }
 
     /**
+     * Generate hashcode for this object
      * 
-     * @return 
+     * @return the hashcode for this object
      */
     @Override
     public int hashCode() {
-        return super.hashCode(); 
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.code);
+        hash = 23 * hash + Objects.hashCode(this.description);
+        hash = 23 * hash + (int) (Double.doubleToLongBits(this.price) ^ (Double.doubleToLongBits(this.price) >>> 32));
+        hash = 23 * hash + Objects.hashCode(this.releaseDate);
+        hash = 23 * hash + this.yearsReleased;
+        return hash;
     }
-    
 
     /**
      * Compares two product objects for equality
@@ -182,7 +188,7 @@ public class ProductBean implements Product
      */
     @Override
     public String toString() {
-        return "Product Code : " + code + 
+        return "Product Code: " + code + 
                 " ; Description: " + description + 
                 " ; Price: " + price + 
                 " ; Release Date: " + releaseDate + 
