@@ -13,5 +13,15 @@
     </head>
     <body>
         <h1>Add Product</h1>
+        <form action="AddProduct" method="POST">
+            <label>Code:</label>
+            <input type="text" name="code" value="" size="20" /><br>
+            <label>Description:</label>
+            <input type="text" name="description" value="" size="20" /><br>
+            <label>Price:</label>
+            <input type="number" name="price" value="" size="20" /><br>
+            <input type="submit" value="Add Product" name="addProductButton" />
+            <input type="submit" value="View Products" name="viewProductsButton" />
+        </form>
     </body>
 </html>
