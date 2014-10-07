@@ -37,29 +37,17 @@ public class CatalogDemoServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-//        String action = request.getParameter("addProduct");
-//        
-//        response.setContentType("text/html;charset=UTF-8");
-//        try (PrintWriter out = response.getWriter()) {
-//            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet NewServlet</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet NewServlet at " + action + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-//        }
+        String action = request.getParameter("action");
         
-        if(catalog != null) {
-            // Store attribute for product catalog
-            request.setAttribute("products", catalog.findAllProducts());
+        if(action.equals("viewProducts")) {
+            if(catalog != null) {
+                // Store attribute for product catalog
+                request.setAttribute("products", catalog.findAllProducts());
+            }
+
+            // Forward control
+            request.getRequestDispatcher("/ProductDump.jsp").forward(request, response);
         }
-        
-        // Forward control
-        request.getRequestDispatcher("/ProductDump.jsp").forward(request, response);
     
     }
 

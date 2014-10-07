@@ -15,7 +15,7 @@
     </head>
     <body>
         <h1>Products</h1>
-        <table border="1" width="50%">
+        <table border="1">
             <thead>
                 <tr>
                     <th>Code</th>

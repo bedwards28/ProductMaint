@@ -13,6 +13,14 @@
     </head>
     <body>
         <h1>Product Maintenance</h1>
-        <a href="ProductCatalog">View Products</a>
+        <!--        <form action="showProducts" method="post">
+                        <a href="ProductCatalog" name="showProducts">View Products</a>
+                    </form>-->
+        <!--<form action="ProductCatalog" method="post">-->
+            <!--<input type="hidden" name="action" value="viewProducts">-->
+            
+            <a href="ProductCatalog?action=viewProducts">View Products</a>
+            <!--<input type="submit" value="View Products" id="submit">-->
+        <!--</form>-->
     </body>
 </html>
