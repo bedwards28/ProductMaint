@@ -28,17 +28,18 @@ public class CatalogUtility {
      * @param numProducts the number of products to load into the catalog
      */
     public static void generateCatalog(ProductCatalog catalog, int numProducts) {
-        catalog.clear();
+        
+            catalog.clear();
 
-        // Loop to create random test products to insert into the catalog
-        for (int product = 1; product <= numProducts; product++) {
-            Product pb = new ProductBean(Integer.toString(product + 10),
-                "Test Product " + product,
-                randomPrice(),
-                randomDate());
+            // Loop to create random test products to insert into the catalog
+            for (int product = 1; product <= numProducts; product++) {
+                Product pb = new ProductBean(Integer.toString(product + 10),
+                    "Test Product " + product,
+                    randomPrice(),
+                    randomDate());
 
-            catalog.insertProduct(pb);
-        }
+                catalog.insertProduct(pb);
+            }
     }
 
     /**

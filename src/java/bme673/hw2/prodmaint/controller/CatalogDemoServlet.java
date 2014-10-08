@@ -8,7 +8,6 @@ package bme673.hw2.prodmaint.controller;
 
 import edu.saintpaul.csci2466.prodmaint.data.ProductCatalog;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -48,6 +47,9 @@ public class CatalogDemoServlet extends HttpServlet {
             // Forward control
             request.getRequestDispatcher("/ProductDump.jsp").forward(request, response);
         }
+        else if(action.equals("addProduct")) {
+            request.getRequestDispatcher("/AddProduct.jsp").forward(request, response);
+        }
     
     }
 
@@ -63,9 +65,11 @@ public class CatalogDemoServlet extends HttpServlet {
         final ServletContext sc = getServletContext();
         String catalogPath = sc.getRealPath("/WEB-INF/catalog/catalog2.dat");
         
-        if(ProductCatalog.init(catalogPath)){
+        if(catalogPath != null && ProductCatalog.init(catalogPath)){
             catalog = ProductCatalog.getInstance();
-            CatalogUtility.generateCatalog(catalog, NUM_0F_PRODUCTS);
+            if(catalog != null) {
+                CatalogUtility.generateCatalog(catalog, NUM_0F_PRODUCTS);
+            }
         }
     }
 

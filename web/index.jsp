@@ -4,6 +4,7 @@
     Author     : Blake
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,14 +14,12 @@
     </head>
     <body>
         <h1>Product Maintenance</h1>
-        <!--        <form action="showProducts" method="post">
-                        <a href="ProductCatalog" name="showProducts">View Products</a>
-                    </form>-->
-        <!--<form action="ProductCatalog" method="post">-->
-            <!--<input type="hidden" name="action" value="viewProducts">-->
-            
-            <a href="ProductCatalog?action=viewProducts">View Products</a>
-            <!--<input type="submit" value="View Products" id="submit">-->
-        <!--</form>-->
+
+        <!--<a href="ProductCatalog?action=viewProducts">View Products</a>-->
+
+        <form action=<c:url value="ProductCatalog"/> method="post">
+            <input type="hidden" name="action" value="viewProducts" />
+            <input type="submit" value="View Products" />
+        </form>
     </body>
 </html>

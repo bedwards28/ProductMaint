@@ -42,8 +42,10 @@
             </tbody>
         </table>
         <br>
-        <form action="AddProduct.jsp" method="post">
-            <input type="submit" value="Add Product" name="addProductButton" action="addProduct"/>
+        
+        <form action=<c:url value="ProductCatalog" /> method="post">
+            <input type="hidden" name="action" value="addProduct" />
+            <input type="submit" value="Add Product" />
         </form>
-    </body>
+</body>
 </html>
