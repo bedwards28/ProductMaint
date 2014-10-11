@@ -51,22 +51,65 @@ public class CatalogDemoServlet extends HttpServlet {
             }
             request.getRequestDispatcher("/ProductDump.jsp").forward(request, response);
         }
+        
         // Check if "Add Product" button was pressed on AddProduct.jsp
         else if(addProduct != null) {
+            
+            ProductBean product = null;
+            String errmsg;
+            String url;
+            Double priceDouble = 0.00;
+            
+            // Get user input
             String code = request.getParameter("code");
             String description = request.getParameter("description");
-            Double price = Double.parseDouble(request.getParameter("price"));
+            String price = request.getParameter("price");
             LocalDate releaseDate = LocalDate.now();
             
-            ProductBean product = 
-                    new ProductBean(code, description, price, releaseDate);
+            try {
+                priceDouble = Double.parseDouble(price);
+                
+//                product = new ProductBean(code, description, 
+//                    priceDouble, releaseDate);
+            }
+            catch (NumberFormatException nfe) {
+                errmsg = "Please enter a valid number for the price.";
+                url = "/AddProduct.jsp";
+                
+                request.setAttribute("errmsg", errmsg);
+                getServletContext()
+                        .getRequestDispatcher(url)
+                        .forward(request, response);
+            }
             
-            catalog.insertProduct(product);
+            product = new ProductBean(code, description, 
+                    priceDouble, releaseDate);
+            
+            // Validate the user entered a value in each field
+            if(code == null || description == null || price == null ||
+                    code.isEmpty() || description.isEmpty() || price.isEmpty()) {
+                errmsg = "Please fill out all of the fields.";
+                request.setAttribute("errmsg", errmsg);
+                url = "/AddProduct.jsp";
+            } 
+            else {
+                errmsg = "";
+                url = "/ProductDump.jsp";
+                catalog.insertProduct(product);
+//                product = new ProductBean(code, description,
+//                    Double.parseDouble(price), releaseDate);
+            }
+            
+//            catalog.insertProduct(product);
             
             request.setAttribute("products", catalog.findAllProducts());
             
-            request.getRequestDispatcher("/ProductDump.jsp")
+            getServletContext()
+                    .getRequestDispatcher(url)
                     .forward(request, response);
+            
+//            request.getRequestDispatcher("/ProductDump.jsp")
+//                    .forward(request, response);
         }
         else if(action.equals("viewProducts")) {
             if(catalog != null) {
@@ -97,9 +140,11 @@ public class CatalogDemoServlet extends HttpServlet {
         
         if(catalogPath != null && ProductCatalog.init(catalogPath)){
             catalog = ProductCatalog.getInstance();
-            if(catalog != null) {
-                CatalogUtility.generateCatalog(catalog, NUM_0F_PRODUCTS);
-            }
+            
+            // Comment out as catalog already exists
+//            if(catalog != null) {
+//                CatalogUtility.generateCatalog(catalog, NUM_0F_PRODUCTS);
+//            }
         }
     }
 

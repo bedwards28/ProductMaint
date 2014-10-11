@@ -19,10 +19,11 @@
             <label>Description:</label>
             <input type="text" name="description"><br>
             <label>Price:</label>
-            <input type="number" name="price"><br>
+            <input type="text" name="price"><br>
             
             <input type="submit" value="Add Product" name="addProductButton">
             <input type="submit" value="View Products" name="viewProductsButton">
         </form>
+        <h2>${errmsg}</h2>
     </body>
 </html>
