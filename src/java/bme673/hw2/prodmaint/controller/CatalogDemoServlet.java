@@ -6,8 +6,11 @@
 
 package bme673.hw2.prodmaint.controller;
 
+import bme673.hw2.prodmaint.model.ProductBean;
 import edu.saintpaul.csci2466.prodmaint.data.ProductCatalog;
+import edu.saintpaul.csci2466.prodmaint.model.Product;
 import java.io.IOException;
+import java.time.LocalDate;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +41,34 @@ public class CatalogDemoServlet extends HttpServlet {
         
         String action = request.getParameter("action");
         
-        if(action.equals("viewProducts")) {
+        String viewProducts = request.getParameter("viewProductsButton");
+        String addProduct = request.getParameter("addProductButton");
+        
+        // Check if the "View Products" button was pressed on the AddProduct.jsp
+        if(viewProducts != null) {
+            if(catalog != null) {
+                request.setAttribute("products", catalog.findAllProducts());
+            }
+            request.getRequestDispatcher("/ProductDump.jsp").forward(request, response);
+        }
+        // Check if "Add Product" button was pressed on AddProduct.jsp
+        else if(addProduct != null) {
+            String code = request.getParameter("code");
+            String description = request.getParameter("description");
+            Double price = Double.parseDouble(request.getParameter("price"));
+            LocalDate releaseDate = LocalDate.now();
+            
+            ProductBean product = 
+                    new ProductBean(code, description, price, releaseDate);
+            
+            catalog.insertProduct(product);
+            
+            request.setAttribute("products", catalog.findAllProducts());
+            
+            request.getRequestDispatcher("/ProductDump.jsp")
+                    .forward(request, response);
+        }
+        else if(action.equals("viewProducts")) {
             if(catalog != null) {
                 // Store attribute for product catalog
                 request.setAttribute("products", catalog.findAllProducts());
