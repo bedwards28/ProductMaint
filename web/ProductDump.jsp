@@ -35,8 +35,12 @@
                         <td>${product.price}</td>
                         <td>${product.releaseDate}</td>
                         <td>${product.yearsReleased}</td>
-                        <td>edit</td>
-                        <td>delete</td>
+                        <td>
+                            <input type="submit" value="Edit" name="editProductButton">
+                        </td>
+                        <td>
+                            <input type="submit" value="Delete" name="deleteProductButton">
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -44,8 +48,8 @@
         <br>
         
         <form action=<c:url value="ProductCatalog" /> method="post">
-            <input type="hidden" name="action" value="addProduct" />
-            <input type="submit" value="Add Product" />
+            <input type="hidden" name="action" value="addProduct">
+            <input type="submit" value="Add Product">
         </form>
 </body>
 </html>

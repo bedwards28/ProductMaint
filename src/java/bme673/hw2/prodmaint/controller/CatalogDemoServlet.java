@@ -43,6 +43,8 @@ public class CatalogDemoServlet extends HttpServlet {
         
         String viewProducts = request.getParameter("viewProductsButton");
         String addProduct = request.getParameter("addProductButton");
+        String editProduct = request.getParameter("editProductButton");
+        String deleteProduct = request.getParameter("deleteProductButton");
         
         // Check if the "View Products" button was pressed on the AddProduct.jsp
         if(viewProducts != null) {
@@ -76,7 +78,10 @@ public class CatalogDemoServlet extends HttpServlet {
                 errmsg = "Please enter a valid number for the price.";
                 url = "/AddProduct.jsp";
                 
+                request.setAttribute("code", code);
+                request.setAttribute("description", description);
                 request.setAttribute("errmsg", errmsg);
+                
                 getServletContext()
                         .getRequestDispatcher(url)
                         .forward(request, response);
@@ -121,6 +126,7 @@ public class CatalogDemoServlet extends HttpServlet {
 //            request.getRequestDispatcher("/ProductDump.jsp")
 //                    .forward(request, response);
         }
+        // View Product button on index.jsp page
         else if(action.equals("viewProducts")) {
             if(catalog != null) {
                 // Store attribute for product catalog
@@ -128,10 +134,18 @@ public class CatalogDemoServlet extends HttpServlet {
             }
 
             // Forward control
-            request.getRequestDispatcher("/ProductDump.jsp").forward(request, response);
+            request.getRequestDispatcher("/ProductDump.jsp")
+                    .forward(request, response);
         }
+        // Add product button on ProductDump.jsp
         else if(action.equals("addProduct")) {
-            request.getRequestDispatcher("/AddProduct.jsp").forward(request, response);
+            request.getRequestDispatcher("/AddProduct.jsp")
+                    .forward(request, response);
+        }
+        // Edit button on product page
+        else if(editProduct != null){
+            request.getRequestDispatcher("/AddProduct.jsp")
+                    .forward(request, response);
         }
     
     }
