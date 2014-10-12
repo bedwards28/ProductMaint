@@ -89,9 +89,15 @@ public class CatalogDemoServlet extends HttpServlet {
             if(code == null || description == null || price == null ||
                     code.isEmpty() || description.isEmpty() || price.isEmpty()) {
                 errmsg = "Please fill out all of the fields.";
-                request.setAttribute("errmsg", errmsg);
+//                request.setAttribute("errmsg", errmsg);
                 url = "/AddProduct.jsp";
             } 
+            // Check if produt already exists in catalog
+            else if(catalog.exists(code)) {
+                errmsg = "Product already exists in catalog.";
+                url = "/AddProduct.jsp";
+                
+            }
             else {
                 errmsg = "";
                 url = "/ProductDump.jsp";
@@ -102,6 +108,10 @@ public class CatalogDemoServlet extends HttpServlet {
             
 //            catalog.insertProduct(product);
             
+            request.setAttribute("code", code);
+            request.setAttribute("description", description);
+            request.setAttribute("price", price);
+            request.setAttribute("errmsg", errmsg);
             request.setAttribute("products", catalog.findAllProducts());
             
             getServletContext()
