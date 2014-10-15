@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%-- 
     Document   : CatalogDisplay
     Created on : Sep 6, 2014, 9:00:36 PM
@@ -32,14 +33,23 @@
                     <tr>
                         <td>${product.code}</td>
                         <td>${product.description}</td>
-                        <td>${product.price}</td>
+                        <td><fmt:formatNumber value="${product.price}" type="currency"/></td>
                         <td>${product.releaseDate}</td>
                         <td>${product.yearsReleased}</td>
                         <td>
-                            <input type="submit" value="Edit" name="editProductButton">
+                            <form action="<c:url value="ProductCatalog"/>" method="post">
+                                <input type="hidden" name="action" value="editProduct">
+                                <input type="hidden" name="code" value="${product.code}">
+                                <input type="hidden" name="description" value="${product.description}">
+                                <input type="hidden" name="price" value="${product.price}">
+                                <input type="submit" value="Edit" name="editProductButton">
+                            </form>
                         </td>
                         <td>
-                            <input type="submit" value="Delete" name="deleteProductButton">
+                            <form action="<c:url value="/AddProduct.jsp"/>" method="post">
+                                <input type="hidden" name="action" value="deleteProduct">
+                                <input type="submit" value="Delete" name="deleteProductButton">
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>
@@ -47,7 +57,7 @@
         </table>
         <br>
         
-        <form action=<c:url value="ProductCatalog" /> method="post">
+        <form action="<c:url value="ProductCatalog" />" method="post">
             <input type="hidden" name="action" value="addProduct">
             <input type="submit" value="Add Product">
         </form>

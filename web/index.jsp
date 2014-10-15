@@ -17,7 +17,7 @@
 
         <!--<a href="ProductCatalog?action=viewProducts">View Products</a>-->
 
-        <form action=<c:url value="ProductCatalog"/> method="post">
+        <form action="<c:url value="ProductCatalog"/>" method="post">
             <input type="hidden" name="action" value="viewProducts" />
             <input type="submit" value="View Products" />
         </form>

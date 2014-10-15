@@ -8,7 +8,6 @@ package bme673.hw2.prodmaint.controller;
 
 import bme673.hw2.prodmaint.model.ProductBean;
 import edu.saintpaul.csci2466.prodmaint.data.ProductCatalog;
-import edu.saintpaul.csci2466.prodmaint.model.Product;
 import java.io.IOException;
 import java.time.LocalDate;
 import javax.servlet.ServletContext;
@@ -43,8 +42,13 @@ public class CatalogDemoServlet extends HttpServlet {
         
         String viewProducts = request.getParameter("viewProductsButton");
         String addProduct = request.getParameter("addProductButton");
-        String editProduct = request.getParameter("editProductButton");
-        String deleteProduct = request.getParameter("deleteProductButton");
+//        String editProduct = request.getParameter("editProductButton");
+//        String deleteProduct = request.getParameter("deleteProductButton");
+        
+        String code = request.getParameter("code");
+        String description = request.getParameter("description");
+        String price = request.getParameter("price");
+        LocalDate releaseDate = LocalDate.now();
         
         // Check if the "View Products" button was pressed on the AddProduct.jsp
         if(viewProducts != null) {
@@ -63,16 +67,13 @@ public class CatalogDemoServlet extends HttpServlet {
             Double priceDouble = 0.00;
             
             // Get user input
-            String code = request.getParameter("code");
-            String description = request.getParameter("description");
-            String price = request.getParameter("price");
-            LocalDate releaseDate = LocalDate.now();
+//            String code = request.getParameter("code");
+//            String description = request.getParameter("description");
+//            String price = request.getParameter("price");
+//            LocalDate releaseDate = LocalDate.now();
             
             try {
                 priceDouble = Double.parseDouble(price);
-                
-//                product = new ProductBean(code, description, 
-//                    priceDouble, releaseDate);
             }
             catch (NumberFormatException nfe) {
                 errmsg = "Please enter a valid number for the price.";
@@ -94,7 +95,6 @@ public class CatalogDemoServlet extends HttpServlet {
             if(code == null || description == null || price == null ||
                     code.isEmpty() || description.isEmpty() || price.isEmpty()) {
                 errmsg = "Please fill out all of the fields.";
-//                request.setAttribute("errmsg", errmsg);
                 url = "/AddProduct.jsp";
             } 
             // Check if produt already exists in catalog
@@ -107,11 +107,7 @@ public class CatalogDemoServlet extends HttpServlet {
                 errmsg = "";
                 url = "/ProductDump.jsp";
                 catalog.insertProduct(product);
-//                product = new ProductBean(code, description,
-//                    Double.parseDouble(price), releaseDate);
             }
-            
-//            catalog.insertProduct(product);
             
             request.setAttribute("code", code);
             request.setAttribute("description", description);
@@ -122,9 +118,6 @@ public class CatalogDemoServlet extends HttpServlet {
             getServletContext()
                     .getRequestDispatcher(url)
                     .forward(request, response);
-            
-//            request.getRequestDispatcher("/ProductDump.jsp")
-//                    .forward(request, response);
         }
         // View Product button on index.jsp page
         else if(action.equals("viewProducts")) {
@@ -143,7 +136,13 @@ public class CatalogDemoServlet extends HttpServlet {
                     .forward(request, response);
         }
         // Edit button on product page
-        else if(editProduct != null){
+        else if(action.equals("editProduct")){
+            
+            request.setAttribute("code", code);
+            request.setAttribute("description", description);
+            request.setAttribute("price", price);
+            request.setAttribute("editProduct", "editProduct");
+            
             request.getRequestDispatcher("/AddProduct.jsp")
                     .forward(request, response);
         }
