@@ -42,12 +42,17 @@
                                 <input type="hidden" name="code" value="${product.code}">
                                 <input type="hidden" name="description" value="${product.description}">
                                 <input type="hidden" name="price" value="${product.price}">
-                                <input type="submit" value="Edit" name="editProductButton">
+                                <input type="hidden" name="releaseDate" value="${product.releaseDate}">
+                                <input type="submit" value="Edit" name="editProductButton2">
                             </form>
                         </td>
                         <td>
-                            <form action="<c:url value="/AddProduct.jsp"/>" method="post">
+                            <form action="<c:url value="ProductCatalog"/>" method="post">
                                 <input type="hidden" name="action" value="deleteProduct">
+                                <input type="hidden" name="code" value="${product.code}">
+                                <input type="hidden" name="description" value="${product.description}">
+                                <input type="hidden" name="price" value="${product.price}">
+                                <input type="hidden" name="releaseDate" value="${product.releaseDate}">
                                 <input type="submit" value="Delete" name="deleteProductButton">
                             </form>
                         </td>

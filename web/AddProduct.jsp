@@ -15,7 +15,15 @@
         <title>Add Product</title>
     </head>
     <body>
-        <h1>Add Product</h1>
+        <c:choose>
+            <c:when test="${editProduct eq 'editProduct'}">
+                <h1>Edit Product</h1>
+            </c:when>
+            <c:otherwise>
+                <h1>Add Product</h1>
+            </c:otherwise>
+        </c:choose>
+
         <form name="addProduct" action="ProductCatalog" method="POST">
             <label>Code:</label>
             <input type="text" name="code" value="${code}" 
@@ -29,8 +37,17 @@
                    value="<fmt:formatNumber value="${price}" 
                                      maxFractionDigits="2"
                                      minFractionDigits="2"/>"><br>
+            <label>Release Date:</label>
+            <input type="date" name="releaseDate" value="${releaseDate}"><br>
             <label>&nbsp;</label>
-            <input type="submit" value="Add Product" name="addProductButton">
+            <c:choose>
+                <c:when test="${editProduct eq 'editProduct'}">
+                    <input type="submit" value="Edit Product" name="editProductButton">
+                </c:when>
+                <c:otherwise>
+                    <input type="submit" value="Add Product" name="addProductButton">
+                </c:otherwise>
+            </c:choose>
             <input type="submit" value="View Products" name="viewProductsButton">
         </form>
         <h2>${errmsg}</h2>
