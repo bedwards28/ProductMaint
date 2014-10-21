@@ -24,7 +24,7 @@
             </c:otherwise>
         </c:choose>
 
-        <form name="addProduct" action="ProductCatalog" method="POST">
+        <form name="addProduct" action="ProductCatalog" method="post">
             <label>Code:</label>
             <input type="text" name="code" value="${code}" 
                    <c:if test="${editProduct eq 'editProduct'}">

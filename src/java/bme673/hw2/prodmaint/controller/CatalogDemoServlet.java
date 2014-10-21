@@ -46,23 +46,37 @@ public class CatalogDemoServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        log("CatalogDemoServlet");
+        
         String action = request.getParameter("action");
+        log("action = " + action);
         
         String viewProducts = request.getParameter("viewProductsButton");
         String addProduct = request.getParameter("addProductButton");
         String editProduct = request.getParameter("editProductButton");
         String deleteProduct = request.getParameter("deleteProductButton");
+        log("viewProducts = " + viewProducts);
+        log("addProduct = " + addProduct);
+        log("editProduct = " + editProduct);
+        log("deleteProduct = " + deleteProduct);
         
         String code = request.getParameter("code");
         String description = request.getParameter("description");
         String price = request.getParameter("price");
         String releaseDate2 = request.getParameter("releaseDate");
-        log(releaseDate2);
+        log("code = " + code);
+        log("description = " + description);
+        log("price = " + price);
+        log("releaseDate2 = " + releaseDate2);
+        
+        //log(releaseDate2);
         //        LocalDate releaseDate = new 
         LocalDate releaseDate = LocalDate.now();
         
         String url = null;
         String errmsg = null;
+        
+        log("Local variables declared");
         
 //        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
@@ -107,6 +121,7 @@ public class CatalogDemoServlet extends HttpServlet {
 //        
         // Check if the "View Products" button was pressed on the AddProduct.jsp
         if(viewProducts != null) {
+            log("ViewProducts != null");
             if(catalog != null) {
                 request.setAttribute("products", catalog.findAllProducts());
             }
@@ -115,7 +130,7 @@ public class CatalogDemoServlet extends HttpServlet {
         
         // Check if "Add Product" button was pressed on AddProduct.jsp
         else if(addProduct != null) {
-            
+            log("addProduct != null");
             ProductBean product = null;
 //            String errmsg;
 //            String url;
@@ -129,6 +144,24 @@ public class CatalogDemoServlet extends HttpServlet {
             
 //            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
 
+            try {
+                priceDouble = Double.parseDouble(price);
+            }
+            catch (NumberFormatException nfe) {
+                errmsg = "Please enter a valid number for the price.";
+                url = "/AddProduct.jsp";
+                
+                request.setAttribute("code", code);
+                request.setAttribute("description", description);
+                request.setAttribute("releaseDate", releaseDate);
+                request.setAttribute("errmsg", errmsg);
+                
+                getServletContext()
+                        .getRequestDispatcher(url)
+                        .forward(request, response);
+                return;
+            }
+            
             try {
 //                log("Release Date: " + releaseDate.toString());
 //                log("Release Date 2: " + releaseDate2);
@@ -149,26 +182,6 @@ public class CatalogDemoServlet extends HttpServlet {
                 return;
             }
             
-            try {
-                priceDouble = Double.parseDouble(price);
-            }
-            catch (NumberFormatException nfe) {
-                errmsg = "Please enter a valid number for the price.";
-                url = "/AddProduct.jsp";
-                
-                request.setAttribute("code", code);
-                request.setAttribute("description", description);
-                request.setAttribute("errmsg", errmsg);
-                
-                getServletContext()
-                        .getRequestDispatcher(url)
-                        .forward(request, response);
-                return;
-            }
-            
-            product = new ProductBean(code, description, 
-                    priceDouble, releaseDate);
-            
             // Validate the user entered a value in each field
             if(code == null || description == null || price == null ||
                     code.isEmpty() || description.isEmpty() || price.isEmpty()) {
@@ -184,12 +197,17 @@ public class CatalogDemoServlet extends HttpServlet {
             else {
                 errmsg = "";
                 url = "/ProductDump.jsp";
+                
+                product = new ProductBean(code, description, 
+                    priceDouble, releaseDate);
+                
                 catalog.insertProduct(product);
             }
             
             request.setAttribute("code", code);
             request.setAttribute("description", description);
             request.setAttribute("price", price);
+            request.setAttribute("releaseDate", releaseDate);
             request.setAttribute("errmsg", errmsg);
             request.setAttribute("products", catalog.findAllProducts());
             
@@ -200,7 +218,7 @@ public class CatalogDemoServlet extends HttpServlet {
         }
         // Edit button on AddProduct.jsp
         else if(editProduct != null) {
-            
+            log("editProduct != null");
             Double priceDouble = 0.00;
             
             try {
@@ -213,8 +231,29 @@ public class CatalogDemoServlet extends HttpServlet {
                 request.setAttribute("code", code);
                 request.setAttribute("description", description);
                 request.setAttribute("errmsg", errmsg);
+                request.setAttribute("releaseDate", releaseDate2);
                 request.setAttribute("editProduct", "editProduct");
                 
+                getServletContext()
+                        .getRequestDispatcher(url)
+                        .forward(request, response);
+                return;
+            }
+            
+            try {
+//                log("Release Date: " + releaseDate.toString());
+//                log("Release Date 2: " + releaseDate2);
+                releaseDate = LocalDate.parse(releaseDate2);
+            } catch (DateTimeParseException ex) {
+//                log(releaseDate.toString());
+                errmsg = "Please enter a valid date as YYYY-MM-DD.";
+                url = "/AddProduct.jsp";
+
+                request.setAttribute("code", code);
+                request.setAttribute("description", description);
+                request.setAttribute("price", price);
+                request.setAttribute("errmsg", errmsg);
+
                 getServletContext()
                         .getRequestDispatcher(url)
                         .forward(request, response);
@@ -230,6 +269,7 @@ public class CatalogDemoServlet extends HttpServlet {
             Product product = catalog.selectProduct(code);
             product.setDescription(description);
             product.setPrice(priceDouble);
+            product.setReleaseDate(releaseDate);
             log(product.getCode());
             log(product.getDescription());
             log(product.toString());
@@ -240,9 +280,12 @@ public class CatalogDemoServlet extends HttpServlet {
             
             request.getRequestDispatcher("/ProductDump.jsp")
                     .forward(request, response);
+            
+            return;
         }
         // View Product button on index.jsp page
-        else if(action.equals("viewProducts")) {
+        else if(action != null && action.equals("viewProducts")) {
+            log("action.equals(viewProducts)");
             if(catalog != null) {
                 // Store attribute for product catalog
                 request.setAttribute("products", catalog.findAllProducts());
@@ -251,25 +294,47 @@ public class CatalogDemoServlet extends HttpServlet {
             // Forward control
             request.getRequestDispatcher("/ProductDump.jsp")
                     .forward(request, response);
+            
+            return;
         }
         // Add product button on ProductDump.jsp
-        else if(action.equals("addProduct")) {
+        else if(action != null && action.equals("addProduct")) {
+            log("action.equals(addProduct)");
             request.getRequestDispatcher("/AddProduct.jsp")
                     .forward(request, response);
+            
+            return;
         }
         // Edit button on product page
-        else if(action.equals("editProduct")){
-            
+        else if(action != null && action.equals("editProduct")){
+            log("action.equals(editProduct)");
             request.setAttribute("code", code);
             request.setAttribute("description", description);
             request.setAttribute("price", price);
+            request.setAttribute("releaseDate", releaseDate2);
             request.setAttribute("editProduct", "editProduct");
             
             request.getRequestDispatcher("/AddProduct.jsp")
                     .forward(request, response);
+            
+            return;
         }
         // Delete button on ProductDump.jsp
+        else if(action != null && action.equals("deleteProduct")) {
+            log("action.equals(deleteProduct)");
+            Product product = catalog.selectProduct(code);
+            
+            request.setAttribute("product", product);
+            
+            request.getRequestDispatcher("/DeleteProduct.jsp")
+                    .forward(request, response);
+            
+            return;
+        }
+        // Delete button on DeleteProduct.jsp
         else if(deleteProduct != null) {
+            log("deleteProduct != null");
+            code = code.toUpperCase();
             Product product = catalog.selectProduct(code);
             catalog.deleteProduct(product);
             
@@ -282,7 +347,15 @@ public class CatalogDemoServlet extends HttpServlet {
             request.getRequestDispatcher("/ProductDump.jsp")
                     .forward(request, response);
             
+            return;
+            
         }
+        else
+        {
+            log("passed all else ifs");
+        }
+        
+        log("End servlet");
         
     }
 

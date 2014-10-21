@@ -19,5 +19,14 @@ label {
     float: left;
     width: 120px;
     margin-bottom: 1px;
+    font-weight: bold;
 }
 
+h3 {
+    float: left;
+    width: 120px;
+}
+
+p {
+    height: 10px;
+}

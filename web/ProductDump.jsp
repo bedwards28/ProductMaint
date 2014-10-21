@@ -53,7 +53,7 @@
                                 <input type="hidden" name="description" value="${product.description}">
                                 <input type="hidden" name="price" value="${product.price}">
                                 <input type="hidden" name="releaseDate" value="${product.releaseDate}">
-                                <input type="submit" value="Delete" name="deleteProductButton">
+                                <input type="submit" value="Delete" name="deleteProductButton2">
                             </form>
                         </td>
                     </tr>
