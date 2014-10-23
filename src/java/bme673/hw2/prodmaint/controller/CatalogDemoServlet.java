@@ -10,14 +10,8 @@ import bme673.hw2.prodmaint.model.ProductBean;
 import edu.saintpaul.csci2466.prodmaint.data.ProductCatalog;
 import edu.saintpaul.csci2466.prodmaint.model.Product;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -368,17 +362,20 @@ public class CatalogDemoServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); 
-        final ServletContext sc = getServletContext();
-        String catalogPath = sc.getRealPath("/WEB-INF/catalog/catalog2.dat");
         
-        if(catalogPath != null && ProductCatalog.init(catalogPath)){
-            catalog = ProductCatalog.getInstance();
+        catalog = ProductCatalog.getInstance();
+        
+//        final ServletContext sc = getServletContext();
+//        String catalogPath = sc.getRealPath("/WEB-INF/catalog/catalog2.dat");
+//        
+//        if(catalogPath != null && ProductCatalog.init(catalogPath)){
+//            catalog = ProductCatalog.getInstance();
             
-            // Comment out as catalog already exists
+//             Comment out as catalog already exists
 //            if(catalog != null) {
 //                CatalogUtility.generateCatalog(catalog, NUM_0F_PRODUCTS);
 //            }
-        }
+//        }
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
